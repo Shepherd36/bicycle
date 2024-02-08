@@ -314,11 +314,7 @@ func (s *BlockScanner) processTonDepositWalletTXs(txs transactions) (Events, err
 			return Events{}, fmt.Errorf("anomalous behavior of the deposit TON wallet")
 		}
 
-		success, err := checkTxForSuccess(tx)
-		if err != nil {
-			return Events{}, err
-		}
-		if !success {
+		if tx.OutMsgCount != 0 {
 			audit.LogTX(audit.Info, string(TonDepositWallet), tx.Hash, "failed transaction")
 			continue
 		}
